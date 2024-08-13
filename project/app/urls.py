@@ -27,5 +27,8 @@ urlpatterns = [
     path('verify_reset_otp/',verify_reset_otp,name='verify_reset_otp'),
     path('verify_new_pass/',verify_new_pass,name='verify_new_pass'),
     path('new_password/',new_password,name='new_password'),
+
+
+    # path("checkout/",checkout,name='checkout'),
    
 ]

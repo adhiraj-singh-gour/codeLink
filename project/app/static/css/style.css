@@ -1405,3 +1405,29 @@ section{
    }
 
 }
+
+
+
+/* paginator */
+
+.pagination {
+   display: flex;
+   justify-content: center;
+   margin-top: 20px;
+}
+
+.pagination .step-links a {
+   color: #8e44ad; /* Text color for the pagination links */
+   text-decoration: none;
+   margin: 0 5px;
+}
+
+.pagination .step-links a:hover {
+   text-decoration: underline;
+}
+
+.pagination .step-links .current {
+   color: #8e44ad; /* Text color for the current page number */
+   font-weight: bold;
+   margin: 0 5px;
+}

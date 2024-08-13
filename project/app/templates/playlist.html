@@ -15,6 +15,32 @@
 
     <!-- custom css file link  -->
     <link rel="stylesheet" href="{% static '/css/style.css'%}" />
+    <style>
+      .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+     }
+     
+     .pagination .step-links a {
+        color: #8e44ad; /* Text color for the pagination links */
+        text-decoration: none;
+        margin: 0 5px;
+        font-size: 16px; /* Increase the font size */
+     }
+     
+     .pagination .step-links a:hover {
+        text-decoration: underline;
+     }
+     
+     .pagination .step-links .current {
+        color: #8e44ad; /* Text color for the current page number */
+        font-weight: bold;
+        margin: 0 5px;
+        font-size: 18px; /* Increase the font size for the current page number */
+     }
+     
+    </style>
   </head>
   <body>
     <header class="header">
@@ -86,7 +112,7 @@
 
     <section class="playlist-details">
       <h1 class="heading">playlist details</h1>
-
+    {% for i in  course %}
       <div class="row">
         <div class="column">
           <form action="" method="post" class="save-playlist">
@@ -96,7 +122,7 @@
           </form>
 
           <div class="thumb">
-            <img src="{% static 'images/thumb-1.png' %}" alt="" />
+            <img src="{{i.thumbnail.url}}" alt="" />
             <span>10 videos</span>
           </div>
         </div>
@@ -104,66 +130,57 @@
           <div class="tutor">
             <img src="{% static 'images/pic-2.jpg' %}" alt="" />
             <div>
-              <h3>john deo</h3>
-              <span>21-10-2022</span>
+              <h3>{{i.teacher}}</h3>
+              <span>{{i.date}}</span>
             </div>
           </div>
 
           <div class="details">
-            <h3>complete HTML tutorial</h3>
+            <h3>{{i.slug}}</h3>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum
-              minus reiciendis, error sunt veritatis exercitationem deserunt
-              velit doloribus itaque voluptate.
+             {{i.description}}
             </p>
+            <p>₹{{i.price}}</p>
             <a href="{% url 'teacher_profile' %}" class="inline-btn"
               >view profile</a
+            >
+            <a href="{% url 'teacher_profile' %}" class="inline-btn"
+              >Buy Now</a
             >
           </div>
         </div>
       </div>
+      {% endfor %}
     </section>
 
     <section class="playlist-videos">
       <h1 class="heading">playlist videos</h1>
-
+     {% for v in videos %}
       <div class="box-container">
         <a class="box" href="{% url 'watch-video' %}">
           <i class="fas fa-play"></i>
-          <img src="{% static 'images/post-1-1.png' %}" alt="" />
-          <h3>complete HTML tutorial (part 01)</h3>
-        </a>
-
-        <a class="box" href="{% url 'watch-video' %}">
-          <i class="fas fa-play"></i>
-          <img src="{% static 'images/post-1-2.png' %}" alt="" />
-          <h3>complete HTML tutorial (part 02)</h3>
-        </a>
-
-        <a class="box" href="{% url 'watch-video' %}">
-          <i class="fas fa-play"></i>
-          <img src="{% static 'images/post-1-3.png' %}" alt="" />
-          <h3>complete HTML tutorial (part 03)</h3>
-        </a>
-
-        <a class="box" href="{% url 'watch-video' %}">
-          <i class="fas fa-play"></i>
-          <img src="{% static 'images/post-1-4.png' %}" alt="" />
-          <h3>complete HTML tutorial (part 04)</h3>
-        </a>
-
-        <a class="box" href="{% url 'watch-video' %}">
-          <i class="fas fa-play"></i>
-          <img src="{% static 'images/post-1-5.png' %}" alt="" />
-          <h3>complete HTML tutorial (part 05)</h3>
-        </a>
-
-        <a class="box" href="{% url 'watch-video' %}">
-          <i class="fas fa-play"></i>
-          <img src="{% static 'images/post-1-6.png' %}" alt="" />
-          <h3>complete HTML tutorial (part 06)</h3>
+          <img src="{{v.video.url }}" alt=""/>
+          <h3>{{v.title}}</h3>
         </a>
       </div>
+    {% endfor %} 
+    <div class="pagination">
+      <span class="step-links">
+          {% if videos.has_previous %}
+              <a href="?page=1">&laquo; first</a>
+              <a href="?page={{ videos.previous_page_number }}">previous</a>
+          {% endif %}
+  
+          <span class="current">
+              Page {{ videos.number }} of {{ videos.paginator.num_pages }}.
+          </span>
+  
+          {% if videos.has_next %}
+              <a href="?page={{ videos.next_page_number }}">next</a>
+              <a href="?page={{ videos.paginator.num_pages }}">last &raquo;</a>
+          {% endif %}
+      </span>
+  </div> 
     </section>
 
     <footer class="footer">

@@ -5,6 +5,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib import messages
 from django.db.models import Q
+from django.core.paginator import Paginator
 import random
 
 
@@ -32,7 +33,16 @@ def login(request):
 
 
 def playlist(request):
-    return render(request, "playlist.html")
+    course = Course.objects.all()
+    video_list = Video.objects.all()
+    paginator = Paginator(video_list, 5)
+    page_number = request.GET.get('page')
+    videos = paginator.get_page(page_number)
+    context = {
+        "course": course,
+        "videos": videos,  
+    }
+    return render(request, "playlist.html", context)
 
 
 def profile(request):
@@ -150,7 +160,7 @@ def verify_user(request):
             return render(request, "home.html", user)
         else:
             message = "Invalid OTP. Please try again."
-            return render(request, "otp_verification.html", {"msg": message, "email": Email})
+            return render(request, "otp-verification.html", {"msg": message, "email": Email})
     
     return render(request, "otp-verification.html")    
 # =================================================================================================
